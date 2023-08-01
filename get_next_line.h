@@ -18,8 +18,12 @@ typedef struct s_list
 	struct s_list	*next;
 }						t_list;
 
-char	*get_next_line(int fd);
-void	read_and_stock(int fd, t_list **stock);
-int	is_newline(t_list *stock);
+char		*get_next_line(int fd);
+void		read_and_stock(int fd, t_list **stock);
+void		add_to_stock(t_list **stock, char *buff, int nb_char);
+void		extract_line(t_list *stock, char **line);
+void		clear_stash(t_list **stock);
+int		is_newline(t_list *stock);
+t_list	*get_last(t_list *stock);
 
 #endif

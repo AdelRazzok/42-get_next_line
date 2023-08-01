@@ -29,3 +29,28 @@ t_list	*get_last(t_list *stock)
 		current = current->next;
 	return (current);
 }
+
+// Counts the current line length and allocates memory
+void	generate_line(char **line, t_list *stock)
+{
+	int	i;
+	int	len;
+
+	len = 0;
+	while (stock)
+	{
+		i = 0;
+		while (stock->content[i])
+		{
+			if (stock->content[i] == '\n')
+			{
+				len++;
+				break;
+			}
+			len++;
+			i++;
+		}
+		stock = stock->next;
+	}
+	*line = malloc(sizeof(char) * (len + 1));
+}
