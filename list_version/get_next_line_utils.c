@@ -54,3 +54,28 @@ void	generate_line(char **line, t_list *stock)
 	}
 	*line = malloc(sizeof(char) * (len + 1));
 }
+
+void	free_stock(t_list *stock)
+{
+	t_list	*current;
+	t_list	*next;
+
+	current = stock;
+	while (current)
+	{
+		free(current->content);
+		next = current->next;
+		free(current);
+		current = next;
+	}
+}
+
+int	ft_strlen(const char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
+}

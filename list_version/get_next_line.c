@@ -5,15 +5,22 @@ char	*get_next_line(int fd)
 	static t_list	*stock;
 	char				*line;
 
+	stock = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
 		return (NULL);
-	stock = NULL;
 	line = NULL;
 	read_and_stock(fd, &stock);
 	if (stock == NULL)
 		return (NULL);
 	extract_line(stock, &line);
 	clear_stock(&stock);
+	if (line[0] == '\0')
+	{
+		free_stock(stock);
+		stock = NULL;
+		free(line);
+		return (NULL);
+	}
 	return (line);
 }
 
@@ -36,7 +43,7 @@ void	read_and_stock(int fd, t_list **stock)
 			return ;
 		}
 		buff[nb_char] = '\0';
-		add_to_stock(fd, buff, nb_char);
+		add_to_stock(stock, buff, nb_char);
 		free(buff);
 	}
 }
@@ -100,7 +107,31 @@ void	extract_line(t_list *stock, char **line)
 	*line[j] = '\0';
 }
 
-void	clear_stash(t_list **stock)
+// Clears the list of all chars already returned in the output line
+void	clear_stock(t_list **stock)
 {
-	
+	t_list	*last_node;
+	t_list	*clean_node;
+	int		i;
+	int		j;
+
+	clean_node = malloc(sizeof(t_list));
+	if (!stock || !clean_node)
+		return ;
+	clean_node->next = NULL;
+	last_node = get_last(*stock);
+	i = 0;
+	while (last_node->content[i] && last_node->content[i] != '\n')
+		i++;
+	if (last_node->content && last_node->content[i] == '\n')
+		i++;
+	clean_node->content = malloc(sizeof(char) * ((ft_strlen(last_node->content) - i) + 1));
+	if (!clean_node->content)
+		return ;
+	j = 0;
+	while (last_node->content[i])
+		clean_node->content[j++] = last_node->content[i++];
+	clean_node->content[j] = '\0';
+	free_stock(*stock);
+	*stock = clean_node;
 }
