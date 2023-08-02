@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -10,7 +11,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = NULL;
 	read_and_stock(fd, &stock);
-	if (stock == NULL)
+	if (!stock)
 		return (NULL);
 	extract_line(stock, &line);
 	clear_stock(&stock);
@@ -36,7 +37,7 @@ void	read_and_stock(int fd, t_list **stock)
 		buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!buff)
 			return ;
-		nb_char = (int) read(fd, buff, BUFFER_SIZE);
+		nb_char = (int)read(fd, buff, BUFFER_SIZE);
 		if ((*stock == NULL && nb_char == 0) || nb_char == -1)
 		{
 			free(buff);
@@ -48,7 +49,7 @@ void	read_and_stock(int fd, t_list **stock)
 	}
 }
 
-// Fills the list with the buffer
+// Fills the end of the list with the buffer
 void	add_to_stock(t_list **stock, char *buff, int nb_char)
 {
 	int		i;
@@ -84,7 +85,7 @@ void	extract_line(t_list *stock, char **line)
 	int	i;
 	int	j;
 
-	if (stock == NULL)
+	if (!stock)
 		return ;
 	generate_line(line, stock);
 	if (*line == NULL)
@@ -97,14 +98,14 @@ void	extract_line(t_list *stock, char **line)
 		{
 			if (stock->content[i] == '\n')
 			{
-				*line[j++] = stock->content[i];
-				break;
+				(*line)[j++] = stock->content[i];
+				break ;
 			}
-			*line[j++] = stock->content[i++];
+			(*line)[j++] = stock->content[i++];
 		}
 		stock = stock->next;
 	}
-	*line[j] = '\0';
+	(*line)[j] = '\0';
 }
 
 // Clears the list of all chars already returned in the output line
