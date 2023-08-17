@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arazzok <arazzok@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/03 15:00:07 by arazzok           #+#    #+#             */
+/*   Updated: 2023/08/03 15:03:37 by arazzok          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
 	static t_list	*stock;
-	char				*line;
+	char			*line;
 
 	stock = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
@@ -29,7 +40,7 @@ char	*get_next_line(int fd)
 void	read_and_stock(int fd, t_list **stock)
 {
 	char	*buff;
-	int	nb_char;
+	int		nb_char;
 
 	nb_char = 1;
 	while (!is_newline(*stock) && nb_char != 0)
@@ -79,7 +90,10 @@ void	add_to_stock(t_list **stock, char *buff, int nb_char)
 	last_node->next = new_node;
 }
 
-// Extracts all characters until the \n (included) from the list to the output line
+/*
+	Extracts all characters until the \n (included)
+	from the list to the output line
+*/
 void	extract_line(t_list *stock, char **line)
 {
 	int	i;
@@ -111,28 +125,28 @@ void	extract_line(t_list *stock, char **line)
 // Clears the list of all chars already returned in the output line
 void	clear_stock(t_list **stock)
 {
-	t_list	*last_node;
-	t_list	*clean_node;
+	t_list	*last;
+	t_list	*clean;
 	int		i;
 	int		j;
 
-	clean_node = malloc(sizeof(t_list));
-	if (!stock || !clean_node)
+	clean = malloc(sizeof(t_list));
+	if (!stock || !clean)
 		return ;
-	clean_node->next = NULL;
-	last_node = get_last(*stock);
+	clean->next = NULL;
+	last = get_last(*stock);
 	i = 0;
-	while (last_node->content[i] && last_node->content[i] != '\n')
+	while (last->content[i] && last->content[i] != '\n')
 		i++;
-	if (last_node->content && last_node->content[i] == '\n')
+	if (last->content && last->content[i] == '\n')
 		i++;
-	clean_node->content = malloc(sizeof(char) * ((ft_strlen(last_node->content) - i) + 1));
-	if (!clean_node->content)
+	clean->content = malloc(sizeof(char) * (ft_strlen(last->content) - i) + 1);
+	if (!clean->content)
 		return ;
 	j = 0;
-	while (last_node->content[i])
-		clean_node->content[j++] = last_node->content[i++];
-	clean_node->content[j] = '\0';
+	while (last->content[i])
+		clean->content[j++] = last->content[i++];
+	clean->content[j] = '\0';
 	free_stock(*stock);
-	*stock = clean_node;
+	*stock = clean;
 }
