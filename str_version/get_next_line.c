@@ -6,7 +6,7 @@
 /*   By: arazzok <arazzok@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:17:50 by arazzok           #+#    #+#             */
-/*   Updated: 2023/08/17 15:20:57 by arazzok          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:01:14 by arazzok          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*read_and_stock(int fd, char *stock)
 
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buff)
-		return ;
+		return (NULL);
 	rd_chars = 1;
 	while (!is_newline(stock) && rd_chars != 0)
 	{
@@ -85,6 +85,7 @@ char	*clear_stock(char * stock)
 	int		j;
 	char	*clean;
 
+	i = 0;
 	while (stock[i] && stock[i] != '\n')
 		i++;
 	if (!stock[i])

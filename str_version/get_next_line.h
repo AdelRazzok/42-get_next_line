@@ -6,7 +6,7 @@
 /*   By: arazzok <arazzok@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:18:08 by arazzok           #+#    #+#             */
-/*   Updated: 2023/08/17 15:33:11 by arazzok          ###   ########.fr       */
+/*   Updated: 2023/08/17 15:48:52 by arazzok          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 # define GET_NEXT_LINE_H
 
+# include <stdio.h>
+
 # include <stdlib.h>
+# include <unistd.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
