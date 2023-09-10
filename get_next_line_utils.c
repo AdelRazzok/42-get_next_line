@@ -6,7 +6,7 @@
 /*   By: arazzok <arazzok@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:36:51 by arazzok           #+#    #+#             */
-/*   Updated: 2023/08/17 15:51:41 by arazzok          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:07:25 by arazzok          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1)
 	{
-		s1 = (char *)malloc(1 * sizeof(char));
+		s1 = (char *)malloc(sizeof(char) * 1);
 		s1[0] = '\0';
 	}
 	i = -1;
 	j = -1;
 	size = ft_strlen(s1) + ft_strlen(s2);
-	dst = malloc(sizeof(char) * size + 1);
+	dst = malloc(sizeof(char) * (size + 1));
 	if (!dst)
 		return (NULL);
 	while (s1[++i])

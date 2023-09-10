@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arazzok <arazzok@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:17:50 by arazzok           #+#    #+#             */
-/*   Updated: 2023/08/17 16:01:14 by arazzok          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:19:43 by arazzok          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char	*stock;
+	static char	*stock[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	stock = read_and_stock(fd, stock);
-	if (!stock)
+	stock[fd] = read_and_stock(fd, stock[fd]);
+	if (!stock[fd])
 		return (NULL);
-	line = extract_line(stock);
-	stock = clear_stock(stock);
+	line = extract_line(stock[fd]);
+	stock[fd] = clear_stock(stock[fd]);
 	return (line);
 }
 
@@ -42,6 +42,7 @@ char	*read_and_stock(int fd, char *stock)
 		if (rd_chars == -1)
 		{
 			free(buff);
+			free(stock);
 			return (NULL);
 		}
 		buff[rd_chars] = '\0';
@@ -79,7 +80,7 @@ char	*extract_line(char *stock)
 	return (line);
 }
 
-char	*clear_stock(char * stock)
+char	*clear_stock(char *stock)
 {
 	int		i;
 	int		j;
